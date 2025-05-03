@@ -31,8 +31,19 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-#ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'tudominio.com']  # Replace with your domain or IP address
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')  # Add more hosts from environment variable
+# ALLOWED_HOSTS configuration
+ALLOWED_HOSTS = [
+    'web-project-newl.onrender.com',  # Tu dominio específico en Render
+    '.onrender.com',                  # Todos los subdominios de render.com
+    'localhost',
+    '127.0.0.1',
+]
+
+# Agregar hosts adicionales desde variables de entorno
+ALLOWED_HOSTS.extend(os.getenv('ALLOWED_HOSTS', '').split(','))
+
+# Eliminar valores vacíos
+ALLOWED_HOSTS = list(filter(None, ALLOWED_HOSTS))
 
 # Application definition
 

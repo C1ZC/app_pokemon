@@ -3,12 +3,12 @@
 set -o errexit
 
 # Instalar dependencias de SQL Server
-curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list
-apt-get update
-ACCEPT_EULA=Y apt-get install -y msodbcsql17
-ACCEPT_EULA=Y apt-get install -y mssql-tools
-apt-get install -y unixodbc-dev
+curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor -o /usr/share/keyrings/microsoft-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/microsoft-keyring.gpg] https://packages.microsoft.com/debian/11/prod bullseye main" | sudo tee /etc/apt/sources.list.d/mssql-release.list
+sudo apt-get update
+sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17
+sudo ACCEPT_EULA=Y apt-get install -y mssql-tools
+sudo apt-get install -y unixodbc-dev
 
 
 # Actualizar pip
@@ -24,5 +24,8 @@ python manage.py collectstatic --no-input
 python manage.py makemigrations
 python manage.py migrate
 
-# Crear superusuario
-python manage.py createsuperuser --noinput --username admin --email admin@mail.com  --password admin123
+
+# Crear superusuario (solo si las variables de entorno están configuradas)
+if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_EMAIL" ] && [ -n "$DJANGO_SUPERUSER_PASSWORD" ]; then
+    python manage.py createsuperuser --noinput
+fi

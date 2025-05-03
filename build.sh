@@ -2,13 +2,13 @@
 # exit on error
 set -o errexit
 
-# Instalar dependencias de SQL Server
-curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor -o /usr/share/keyrings/microsoft-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/microsoft-keyring.gpg] https://packages.microsoft.com/debian/11/prod bullseye main" | sudo tee /etc/apt/sources.list.d/mssql-release.list
-sudo apt-get update
-sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17
-sudo ACCEPT_EULA=Y apt-get install -y mssql-tools
-sudo apt-get install -y unixodbc-dev
+# Instalar dependencias de SQL Server sin sudo
+curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list
+apt-get update
+ACCEPT_EULA=Y apt-get install -y msodbcsql17
+ACCEPT_EULA=Y apt-get install -y mssql-tools
+apt-get install -y unixodbc-dev
 
 
 # Actualizar pip

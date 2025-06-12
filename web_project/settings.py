@@ -92,50 +92,23 @@ WSGI_APPLICATION = 'web_project.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 
-# Database configuration
-if os.getenv('DATABASE_URL'):
-    # Configuración para Render (PostgreSQL)
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.getenv('DATABASE_URL'),
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
-    }
-else:
-    # Configuración local (SQL Server)
-    DATABASES = {
-        'default': {
-            'ENGINE': os.getenv('DB_ENGINE'),
-            'NAME': os.getenv('DB_NAME'),
-            'USER': os.getenv('DB_USER'),
-            'PASSWORD': os.getenv('DB_PASSWORD'),
-            'HOST': os.getenv('DB_HOST'),
-            'PORT': os.getenv('DB_PORT'),
-            'OPTIONS': {
-                'driver': os.getenv('DB_DRIVER'),
-                'encryption': os.getenv('DB_ENCRYPTION'),
-            },
-        }
-    }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'mssql',
-#         'NAME': 'web_app',  # Nombre de la base de datos
-#         'USER': 'sa',  # Usuario de la base de datos
-#         #'PASSWORD': 'gERmtiUvSn4LPJsd',  # Contraseña de la base de datos
-#         'PASSWORD': 'tCAj,C9eH==[',  # Cambia esto si es necesario
-#         #'HOST': 'mssql-db' ,  # Host de la base de datos
-#         'HOST': 'localhost',  # Cambia esto si es necesario
-#         'PORT': '1433',  # Puerto de la base de datos
-#         'OPTIONS': {
-#             'driver': 'ODBC Driver 17 for SQL Server',
-#             'encrypt': 'no',  # Cambiar a True si se requiere encriptación
-#         'timeout': 5,  # Timeout en segundos
-#         },
-#     }
-# }
+# Configuración local (SQL Server)
+DATABASES = {
+    'default': {
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+        'OPTIONS': {
+            'driver': os.getenv('DB_DRIVER'),
+            'encryption': os.getenv('DB_ENCRYPTION'),
+        },
+    }
+}
+
 
 
 # DATABASES = {
